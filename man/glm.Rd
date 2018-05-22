@@ -14,13 +14,14 @@ This function overloads the \code{\link[stats]{glm}} function so that a check fo
 glm(formula, family = gaussian, data, weights, subset, na.action, start = NULL,
 	etastart, mustart, offset, control = glm.control(...), model = TRUE,
 	method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, ...,
-	separation = c("find", "test"))
+	separation = c("find", "test"), action=c("error","warning"))
 }
 
 \arguments{
 The arguments are identical to the arguments of the \code{\link[stats]{glm}} function provided in the \sQuote{stats} package with the exception of
 
 \item{separation}{either \dQuote{find} or \dQuote{test}.  Both options prevent the model from being fit to binary data when the maximum likelihood estimate does not exist.  Additionally, when \code{separation = "find"}, the terms separating the sample points are identified when the maximum likelihood estimate is found not to exist.}
+\item{action}{either \dQuote{error} or \dQuote{warning}.  If \code{action = "error"} (the default), an error is issued and the function aborts when the maximum likelihood estimate does not exist.  If \code{action = "warning"}, a warning message is issued, but the model is fitted anyway.}
 
 The following arguments are passed to the \code{\link[stats]{glm}} function:
 
