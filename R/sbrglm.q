@@ -1,5 +1,5 @@
 glm <- function (formula, family = gaussian, data, weights, subset,
-  na.action, start = NULL, etastart, mustart, offset, control = glm.control(...),
+  na.action, start = NULL, etastart, mustart, offset, control = list(...),
   model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, ...,
   separation = c("find", "test"), action=c("error", "warning") )
 {
@@ -74,26 +74,11 @@ glm <- function (formula, family = gaussian, data, weights, subset,
     }
   }
 
-  fit <- glm.fit(x = X, y = Y, weights = weights, start = start,
-    etastart = etastart, mustart = mustart, offset = offset,
-    family = family, control = control, intercept = attr(mt,
-    "intercept") > 0)
-  if (length(offset) && attr(mt, "intercept") > 0) {
-    fit$null.deviance <- glm.fit(x = X[, "(Intercept)", drop = FALSE],
-      y = Y, weights = weights, offset = offset, family = family,
-      control = control, intercept = TRUE)$deviance
-  }
-  if (model)
-    fit$model <- mf
-  fit$na.action <- attr(mf, "na.action")
-  if (x)
-    fit$x <- X
-  if (!y)
-    fit$y <- NULL
-  fit <- c(fit, list(call = call, formula = formula, terms = mt,
-    data = data, offset = offset, control = control, method = method,
-    contrasts = attr(X, "contrasts"), xlevels = .getXlevels(mt, mf)))
-  class(fit) <- c("glm", "lm")
-  fit
+  ## Call the original stats::glm function as if it was the originally called function
+  call <- match.call(expand.dots=TRUE)
+  call$separation <- NULL
+  call$action     <- NULL
+  call[[1L]] <- quote(stats::glm)
+  eval(call, parent.frame())
 }
 
