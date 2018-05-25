@@ -7,7 +7,9 @@ Fitting Generalized Linear Models
 }
 
 \description{
-This function overloads the \code{\link[stats]{glm}} function so that a check for the existence of the maximum likelihood estimate is computed before fitting a \sQuote{glm} with a binary response.
+This function overloads the \code{\link[stats]{glm}} function so that a check
+for the existence of the maximum likelihood estimate is computed before fitting
+a \sQuote{glm} with a binary response.
 }
 
 \usage{
